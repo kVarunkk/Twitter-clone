@@ -1,0 +1,420 @@
+*{
+    box-sizing: border-box;
+    margin: 0;
+}
+
+body{
+    margin: 0;
+    padding: 0;
+    font-family: 'Arial MT Black', sans-serif;
+    color: #14171A;
+}
+
+.wrapper{
+    margin: 0 auto;
+    max-width: 100%;
+}
+
+.content-wrapper{
+    position: relative;
+    min-height: 100vh;
+}
+
+header{
+    margin-bottom: 100px;
+    background-color: #1da0f290;
+    padding: 25px 0px;
+    color: white;
+}
+
+header h1{
+    margin-left: 10%;
+    font-weight: 900;
+}
+
+footer{
+    background-color: #657786;
+    padding: 30px 0px;
+}
+
+footer h4{
+    margin-left: 10%;
+    font-family: 'Arial';
+    color: white;
+}
+
+
+
+/* index */
+
+.introduction{
+    margin-left: 10%;
+    font-size: 1.5rem;
+    font-family: 'Arial';
+}
+
+.button-wrapper{
+    display: flex;
+    flex-direction: row;
+    gap: 30px;
+    margin-top: 40px;
+    margin-left: 10%;
+}
+
+.submit1, .submit2{
+    width: 110px;
+    height: 40px;
+    font-size: 1rem;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.submit1{
+    color: aliceblue;
+    background-image: linear-gradient(rgb(34, 235, 34), green);
+    border: 0;
+    border-radius: 5px;
+}
+
+.submit1:hover{
+    background-image: linear-gradient(green, rgb(34, 235, 34));
+
+}
+
+.submit2{
+    color: green;
+    background-color: transparent;
+    border: 2px solid rgb(4, 166, 4);
+    border-radius: 5px;
+}
+
+
+
+/* sign in/ up */
+form{
+    font-size: 1.3rem;
+    font-family: 'Arial';
+}
+
+form label{
+    margin-left: 10%;
+}
+
+form input{
+    margin:  5px 0px 15px 10%;
+    width: 50%;
+    height: 35px;
+    font-size: 1.1rem;
+}
+
+form textarea{
+    margin:  5px 0px 15px 10%;
+    width: 50%;
+    height: 150px;
+    font-size: 1.1rem;
+}
+
+form .submit{
+    cursor: pointer;
+    background-image: linear-gradient(rgb(34, 235, 34), green);
+    color: aliceblue;
+    font-weight: bold;
+    border: none;
+    border-radius: 5px;
+}
+
+form .submit:hover{
+    background-image: linear-gradient(green, rgb(34, 235, 34));
+}
+
+form .sign-in{
+    color: green;
+    background-color: white;
+    font-weight: bold;
+    cursor: pointer;
+    border: 2px solid rgb(4, 166, 4);
+    border-radius: 5px;
+}
+
+
+
+/* feed */
+
+.header-wrapper{
+    display: flex;
+    align-items: center;
+    width: 50%;
+    margin-left: 10%;
+}
+
+.header-wrapper h1{
+    margin-left: 0;
+}
+
+.userBtns{
+    display: flex;
+    gap: 30px;
+    margin-left: auto;
+    font-weight: bold;
+}
+
+.userBtns a{
+    text-decoration: none;
+    color: aliceblue;
+    background-image: linear-gradient(rgb(34, 235, 34), green);
+    border: none;
+    border-radius: 5px;
+    padding: 6px;
+}
+
+.userBtns a:hover{
+    background-image: linear-gradient(green, rgb(34, 235, 34));
+}
+
+.tweets{
+    margin-left: 10%;
+    margin-bottom: 100px;
+    width: 50%;
+    border: 1px solid rgba(143, 143, 143, 0.3);
+    border-top: 0;
+    border-bottom: 0;
+}
+
+.tweet-flex{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-right: 20px;
+    margin-bottom: 15px;
+}
+
+.newTweet{
+    padding-left: 10px;
+    padding-top: 20px;
+}
+
+.newTweet p{
+    margin: 10px 0;
+}
+
+.newTweet hr, .comments hr{
+    border: 0;
+    height: 0;
+    border-top: 1px solid rgba(0, 0, 0, 0.052);
+    border-bottom: 1px solid rgba(222, 220, 220, 0.181);
+}
+
+.tweet-content{
+    font-size: 1.4rem;
+    font-family: 'Arial';
+    width: 95%;
+    margin-bottom: 20px;
+}
+
+.dashboard{
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    height: fit-content;
+    width: fit-content;
+    padding: 0;
+}
+
+.dashboard:hover{
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+}
+
+.dashboardBtnForm{
+    padding: 0;
+    width: fit-content;
+}
+
+.posted{
+    font-size: 1.1rem;
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+.tweetCreatedAt{
+    font-family: 'Arial';
+    color: rgba(0, 0, 0, 0.619);
+}
+
+.comment-content{
+    font-size: 1.1rem;
+    font-family: 'Arial';
+    width: 95%;
+    margin-bottom: 20px;
+}
+
+.comment-form{
+    margin-bottom: 2px;
+}
+
+.reply{
+    margin-top: -15px;
+    margin-bottom: 5px;
+    font-family: 'Arial';
+    font-size: 1.1rem;
+    color: rgba(0, 0, 0, 0.619);
+}
+
+.replying-to{
+    color: #1DA1F2 ;
+}
+
+.like-delete{
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    margin-top: 10px;
+}
+
+.inside-comments{
+    padding: 15px 15px 15px 30px;
+}
+
+.inside-comments:hover{
+    background-color: rgba(50, 50, 50, 0.047);
+}
+
+.comment-holder {
+    display: flex;
+    align-items: center;
+    width: 90%;
+    padding: 3px 10px;
+    border-radius: 5px;
+    background-color: rgba(225, 228, 228, 0.558);
+    margin: 10px auto;
+}
+
+.comment-content {
+    margin: 0 0 20px;
+}
+
+.comment-posted{
+    font-style: italic;
+}
+
+
+
+.forms{
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+}
+
+.dashboard-forms{
+    margin-bottom: 20px;
+}
+
+.follow-unfollow{
+    display: flex;
+    gap: 10px;
+}
+
+.followBtnForm, .unfollowBtnForm{
+    width: fit-content;
+}
+
+.newTweet .like, .follow, .unfollow, .edit, .delete, .comment, .commentDelete, .commentLike{
+    width: fit-content;
+    cursor: pointer;
+    height: fit-content;
+    border: none;
+    border-radius: 5px;
+    font-size: small;
+    font-weight: bold;
+    color: aliceblue;
+    padding: 3px 7px;
+}
+
+.commentDelete{
+    background-color: transparent;
+    border: 2px solid red;
+    color: black;
+}
+
+.commentLike{
+    background-color: transparent;
+    border: 2px solid rgb(251, 159, 174);
+    color: black;
+}
+
+.like{
+    background-image: linear-gradient(pink, rgb(252, 56, 89));    
+}
+
+.like:hover{
+    background-image: linear-gradient(rgb(252, 56, 89), pink);    
+}
+
+.follow{
+    background-image: linear-gradient(rgb(34, 235, 34), green);
+}
+
+.follow:hover{
+    background-image: linear-gradient(green, rgb(34, 235, 34));
+}
+
+.unfollow, .delete{
+    background-image: linear-gradient(rgb(246, 146, 100), rgb(156, 4, 4));
+}
+
+.unfollow:hover{
+    background-image: linear-gradient(rgb(156, 4, 4), rgb(246, 146, 100));
+}
+
+.delete:hover{
+    background-image: linear-gradient(rgb(156, 4, 4), rgb(246, 146, 100));
+}
+
+.edit{
+    background-image: linear-gradient(rgb(73, 123, 250), rgb(35, 35, 251));
+}
+
+.comment{
+    margin-bottom: 20px;
+    background-image: linear-gradient(rgb(252, 223, 116), rgb(251, 35, 35));
+}
+
+.comment:hover{
+    background-image: linear-gradient( rgb(251, 35, 35), rgb(252, 223, 116)); 
+}
+
+.edit:hover{
+    background-image: linear-gradient(rgb(35, 35, 251), rgb(73, 123, 250));
+}
+
+/* dashboard */
+.dashboard-div{
+    margin-left: 10%;
+    width: 50%;
+    margin-bottom: 50px;
+}
+
+.dashboard-div p{
+    font-size: 1.2rem;
+    font-family: 'Arial';
+    background-color: rgba(225, 228, 228, 0.558);
+    padding: 5px;
+    border-radius: 5px;
+}
+
+.tweets h2{
+    margin-bottom: 25px;
+}
+
+.postedAt{
+    font-size: small;
+}
+
+.posted2{
+    margin-bottom: 20px;
+}
+
+.disable:hover{
+    background-image: linear-gradient(pink, rgb(252, 56, 89));
+}
