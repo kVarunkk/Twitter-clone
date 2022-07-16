@@ -30,9 +30,7 @@
     
             <section>
                 <form method="post" action="/edit/<%= user %>/<%= tweetId %>/<%= user2 %>">
-                    <textarea name="text"  required>
-                        <%= initialText %>
-                    </textarea><br>
+                    <textarea name="text"  required><%= initialText %></textarea><br>
                     <input class="submit" type="submit" value="EDIT NOW" name="submit">
                 </form>
             </section>

@@ -26,7 +26,7 @@ app
   })
   .post((req, res) => {
     Person.exists({ name: req.body.name }, function (err, doc) {
-      if(!err) {
+      if (!err) {
         if (doc) {
           alert("This username already exists, please choose another one!");
           res.redirect("/signUp");
@@ -38,7 +38,7 @@ app
           });
           alert("Welcome to twitter!");
           res.redirect(`/feed/${req.body.name}`);
-        } 
+        }
       } else console.log(err);
     });
   });
@@ -56,7 +56,7 @@ app
         password: req.body.password,
       },
       (err, result) => {
-        if(!err) {
+        if (!err) {
           if (result.length === 0) {
             alert("Please fill your data correctly or Sign Up!");
             res.redirect("/signIn");
@@ -80,13 +80,12 @@ app
   .post((req, res) => {
     Tweet.create(
       {
-        content: req.body.text
+        content: req.body.text,
       },
       (err, newTweet) => {
         if (!err) {
           Person.findOne({ name: req.params.userName }, (err, doc) => {
             if (!err) {
-
               newTweet.postedBy = doc._id;
               newTweet.save();
 
@@ -96,7 +95,7 @@ app
               res.redirect(`/feed/${req.params.userName}`);
             } else console.log(err);
           });
-        }
+        } else console.log(err);
       }
     );
   });
@@ -139,31 +138,27 @@ app.route("/feed/:userName").get((req, res) => {
     .populate("postedBy")
     .exec((err, docs) => {
       if (!err) {
-
         //to know if a person has liked tweet
-        docs.forEach((doc)=>{
-          if(!doc.likes.includes(req.params.userName)) {
-            doc.likeTweetBtn = 'Like';
-          }
-          else doc.likeTweetBtn = 'Liked';
+        docs.forEach((doc) => {
+          if (!doc.likes.includes(req.params.userName)) {
+            doc.likeTweetBtn = "Like";
+          } else doc.likeTweetBtn = "Liked";
         });
 
         //to know if a person has liked comment
-        docs.forEach((doc)=>{
-          (doc.comments).forEach((docComment)=>{
-            if(!docComment.likes.includes(req.params.userName)) {
-              docComment.likeCommentBtn = 'Like';
-            }
-            else docComment.likeCommentBtn = 'Liked';
-          })
+        docs.forEach((doc) => {
+          doc.comments.forEach((docComment) => {
+            if (!docComment.likes.includes(req.params.userName)) {
+              docComment.likeCommentBtn = "Like";
+            } else docComment.likeCommentBtn = "Liked";
+          });
         });
 
         // to know if person follows another user
-        docs.forEach((doc)=>{
-          if(!doc.postedBy.followers.includes(req.params.userName)) {
-            doc.postedBy.followBtn = 'Follow';
-          }
-          else doc.postedBy.followBtn = 'Following';
+        docs.forEach((doc) => {
+          if (!doc.postedBy.followers.includes(req.params.userName)) {
+            doc.postedBy.followBtn = "Follow";
+          } else doc.postedBy.followBtn = "Following";
         });
 
         res.render("feed", {
@@ -180,19 +175,18 @@ app.route("/feed/:userName/like/:tweetId").post((req, res) => {
     if (!err) {
       if (!doc.likes.includes(req.params.userName)) {
         doc.likes.push(req.params.userName);
-        doc.likeTweetBtn = 'Liked';
         doc.save((err) => {
           if (!err) {
-            res.redirect(`/feed/${req.params.userName}`);
-          }
+            doc.likeTweetBtn = "Liked";
+          } else console.log(err);
         });
       } else {
         let indexForLikes = doc.likes.indexOf(req.params.userName);
         doc.likes.splice(indexForLikes, 1);
-        doc.likeTweetBtn = 'Like';
         doc.save((err) => {
-          if (!err) res.redirect(`/feed/${req.params.userName}`);
-          else console.log(err);
+          if (!err) {
+            doc.likeTweetBtn = "Like";
+          } else console.log(err);
         });
       }
     }
@@ -205,20 +199,21 @@ app.route("/feed/:userName/like-comment/:commentId").post((req, res) => {
     if (!err) {
       if (!doc.likes.includes(req.params.userName)) {
         doc.likes.push(req.params.userName);
-        doc.likeCommentBtn = 'Liked';
         doc.save((err) => {
-          if (!err) res.redirect(`/feed/${req.params.userName}`);
+          if (!err) {
+            doc.likeCommentBtn = "Liked";
+          } else console.log(err);
         });
       } else {
         let indexForLikes = doc.likes.indexOf(req.params.userName);
         doc.likes.splice(indexForLikes, 1);
-        doc.likeCommentBtn = 'Like';
         doc.save((err) => {
-          if (!err) res.redirect(`/feed/${req.params.userName}`);
-          else console.log(err);
+          if (!err) {
+            doc.likeCommentBtn = "Like";
+          } else console.log(err);
         });
       }
-    }
+    } else console.log(err);
   });
 });
 
@@ -229,26 +224,21 @@ app.route("/feed/:userName/follow/:user").post((req, res) => {
       if (doc.name !== req.params.userName) {
         if (!doc.followers.includes(req.params.userName)) {
           doc.followers.push(req.params.userName);
-          doc.followBtn = 'Following';
           doc.save((err) => {
             if (!err) {
-              
-              res.redirect(`/feed/${req.params.userName}`);
+              doc.followBtn = "Following";
             } else console.log(err);
           });
-        } 
-        else {
+        } else {
           let indexForUnFollow = doc.followers.indexOf(req.params.userName);
           doc.followers.splice(indexForUnFollow, 1);
-          doc.followBtn = 'Follow';
           doc.save((err) => {
             if (!err) {
-              
-              res.redirect(`/feed/${req.params.userName}`);
+              doc.followBtn = "Follow";
             }
           });
         }
-      } else res.redirect(`/feed/${req.params.userName}`);
+      } else alert("You cannot follow yourself!");
     }
   });
 });
@@ -276,10 +266,7 @@ app.route("/feed/:userName/dashboard/:user").get((req, res) => {
   Person.findOne({ name: req.params.user })
     .populate({
       path: "tweets",
-      populate: [
-        {path: "comments"},
-        {path: "postedBy"}
-      ]
+      populate: [{ path: "comments" }, { path: "postedBy" }],
     })
     .exec(function (err, person) {
       if (err) return handleError(err);
@@ -297,20 +284,15 @@ app.route("/dashboard/:userName/edit-tweet/:user/:tweetId").post((req, res) => {
   if (req.params.userName !== req.params.user) {
     res.redirect(`/feed/${req.params.userName}/dashboard/${req.params.user}`);
     alert(`You cannot edit someone else's tweet!`);
-  } 
-  else {
-
-    Tweet.findOne({_id: req.params.tweetId}, (err, doc)=>{
+  } else {
+    Tweet.findOne({ _id: req.params.tweetId }, (err, doc) => {
       res.render("edit", {
         tweetId: req.params.tweetId,
         user: req.params.userName,
         user2: req.params.user,
-        initialText: doc.content
+        initialText: doc.content,
       });
-    })
-
-
-    
+    });
   }
 });
 
@@ -360,13 +342,11 @@ app
       Comment.findOneAndDelete({ _id: req.params.commentId }, (err) => {
         if (!err) {
           alert("Comment deleted succesfully!");
-          res.redirect(
-            `/feed/${req.params.userName}`
-          );
+          res.redirect(`/feed/${req.params.userName}`);
         } else console.log(err);
       });
     }
-  });  
+  });
 
 app.listen(3000, () => {
   console.log("Server running at port 3000!");
