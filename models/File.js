@@ -1,70 +1,70 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 
 const personSchema = new mongoose.Schema({
-    name:{
-        type: String,
-        required: true   
-    },
-    password: {
-        type: String,
-        required: true 
-    },
-    followers:{
-        type: Array
-    },
-    followBtn: {
-        type: String,
-        default: 'Follow'
-    },
-    tweets: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Tweet' }]
+  name: {
+    type: String,
+    required: true,
+  },
+  password: {
+    type: String,
+    required: true,
+  },
+  followers: {
+    type: Array,
+  },
+  followBtn: {
+    type: String,
+    default: "Follow",
+  },
+  tweets: [{ type: mongoose.Schema.Types.ObjectId, ref: "Tweet" }],
 });
 
-
-const tweetSchema = new mongoose.Schema({
+const tweetSchema = new mongoose.Schema(
+  {
     content: {
-        type: String,
-        required: true 
+      type: String,
+      required: true,
     },
     postedBy: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Person'
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Person",
     },
-    likes:{
-        type: Array
+    likes: {
+      type: Array,
     },
     likeTweetBtn: {
-        type: String,
-        default: 'Like'
+      type: String,
+      default: "Like",
     },
-    comments: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Comment' }] 
-},
-{timestamps: true}
+    comments: [{ type: mongoose.Schema.Types.ObjectId, ref: "Comment" }],
+  },
+  {
+    timestamps: true,
+  }
 );
 
-
-const commentSchema = new mongoose.Schema({
+const commentSchema = new mongoose.Schema(
+  {
     content: {
-        type: String,
-        required: true 
+      type: String,
+      required: true,
     },
     postedBy: {
-        type: String,
+      type: String,
     },
-    likes:{
-        type: Array
+    likes: {
+      type: Array,
     },
     likeCommentBtn: {
-        type: String,
-        default: 'Like'
-    }
-},
-{timestamps: true}
+      type: String,
+      default: "Like",
+    },
+  },
+  { timestamps: true }
 );
-
 
 const Person = mongoose.model("Person", personSchema);
 const Tweet = mongoose.model("Tweet", tweetSchema);
 const Comment = mongoose.model("Comment", commentSchema);
 
-module.exports = {Person, Tweet, Comment};
-
+module.exports = { Person, Tweet, Comment };

@@ -89,9 +89,8 @@ app
               newTweet.postedBy = doc._id;
               newTweet.save();
 
-              doc.tweets.push(newTweet._id);
+              doc.tweets.unshift(newTweet._id);
               doc.save();
-              alert("Tweet created succesfully!");
               res.redirect(`/feed/${req.params.userName}`);
             } else console.log(err);
           });
@@ -120,9 +119,8 @@ app
         if (!err) {
           Tweet.findOne({ _id: req.params.tweetId }, (err, doc) => {
             if (!err) {
-              doc.comments.push(newComment._id);
+              doc.comments.unshift(newComment._id);
               doc.save();
-              alert("Comment created succesfully!");
               res.redirect(`/feed/${req.params.userName}`);
             } else console.log(err);
           });
@@ -136,6 +134,7 @@ app.route("/feed/:userName").get((req, res) => {
   Tweet.find()
     .populate("comments")
     .populate("postedBy")
+    .sort({ createdAt: -1 })
     .exec((err, docs) => {
       if (!err) {
         //to know if a person has liked tweet
@@ -252,7 +251,6 @@ app.route("/feed/:userName/unfollow/:user").post((req, res) => {
         doc.followers.splice(indexForUnFollow, 1);
         doc.save((err) => {
           if (!err) {
-            alert(`Unfollowed ${req.params.user} succesfully!`);
             res.redirect(`/feed/${req.params.userName}`);
           }
         });
@@ -322,7 +320,6 @@ app
     } else {
       Tweet.findOneAndDelete({ _id: req.params.tweetId }, (err) => {
         if (!err) {
-          alert("Tweet deleted succesfully!");
           res.redirect(
             `/feed/${req.params.userName}/dashboard/${req.params.user}`
           );
@@ -341,7 +338,6 @@ app
     } else {
       Comment.findOneAndDelete({ _id: req.params.commentId }, (err) => {
         if (!err) {
-          alert("Comment deleted succesfully!");
           res.redirect(`/feed/${req.params.userName}`);
         } else console.log(err);
       });

@@ -72,12 +72,18 @@
                                     <button class="like" name="like">
                                         <%= tweet.likeTweetBtn %>
                                     </button>
+                                    <p class="tweetLikeCount">
+                                        <%= tweet.likes.length %>
+                                    </p>
                                 </form>
 
 
                                 <form class="commentBtnForm" action="/feed/<%= user %>/comment/<%=tweet.id%>"
                                     method="get">
                                     <button class="comment" name="comment"> Comment </button>
+                                    <p class="tweetCommentCount">
+                                        <%= tweet.comments.length %>
+                                    </p>
                                 </form>
                             </div>
                             <hr>
@@ -126,6 +132,9 @@
                                             <button class="commentLike" name="like">
                                                 <%=comment.likeCommentBtn %>
                                             </button>
+                                            <p class="commentLikeCount">
+                                                <%= comment.likes.length - 1%>
+                                            </p>
                                         </form>
 
                                         <form class="commentDeleteBtnForm"
@@ -206,8 +215,12 @@
             likeBtn.addEventListener('click', (e) => {
                 if (e.target.innerText === 'Like') {
                     e.target.innerText = 'Liked';
+                    e.target.nextElementSibling.innerText = (Number(e.target.nextElementSibling.innerText) + 1);
                 }
-                else e.target.innerText = 'Like';
+                else {
+                    e.target.innerText = 'Like';
+                    e.target.nextElementSibling.innerText = (Number(e.target.nextElementSibling.innerText) - 1);
+                }
             });
         });
 
@@ -240,8 +253,12 @@
             commentLikeBtn.addEventListener('click', (e) => {
                 if (e.target.innerText === 'Like') {
                     e.target.innerText = 'Liked';
+                    e.target.nextElementSibling.innerText = (Number(e.target.nextElementSibling.innerText) + 1);
                 }
-                else e.target.innerText = 'Like';
+                else {
+                    e.target.innerText = 'Like';
+                    e.target.nextElementSibling.innerText = (Number(e.target.nextElementSibling.innerText) - 1);
+                }
             });
         });
 
