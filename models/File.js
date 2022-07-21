@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const moment = require("moment");
 
 const personSchema = new mongoose.Schema({
   name: {
@@ -29,6 +30,10 @@ const tweetSchema = new mongoose.Schema(
       type: mongoose.Schema.Types.ObjectId,
       ref: "Person",
     },
+    postedTweetTime: {
+      type: String,
+      default: moment().format("MMMM Do YYYY, h:mm:ss a"),
+    },
     likes: {
       type: Array,
     },
@@ -51,6 +56,10 @@ const commentSchema = new mongoose.Schema(
     },
     postedBy: {
       type: String,
+    },
+    postedCommentTime: {
+      type: String,
+      default: moment().format("MMMM Do YYYY, h:mm:ss a"),
     },
     likes: {
       type: Array,

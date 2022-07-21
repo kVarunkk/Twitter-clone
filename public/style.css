@@ -345,6 +345,10 @@ form .sign-in {
     padding: 3px 7px;
 }
 
+.follow {
+    font-size: large;
+}
+
 .commentDelete {
     background-color: transparent;
     border: 2px solid red;

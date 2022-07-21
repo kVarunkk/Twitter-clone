@@ -2,6 +2,7 @@ const bodyParser = require("body-parser");
 const alert = require("alert");
 const express = require("express");
 const mongoose = require("mongoose");
+const moment = require("moment");
 const { Person, Tweet, Comment } = require("./models/File");
 
 const app = express();
@@ -81,6 +82,7 @@ app
     Tweet.create(
       {
         content: req.body.text,
+        postedTweetTime: moment().format("MMMM Do YYYY, h:mm:ss a"),
       },
       (err, newTweet) => {
         if (!err) {
@@ -113,6 +115,7 @@ app
       {
         content: req.body.text,
         postedBy: req.params.userName,
+        postedCommentTime: moment().format("MMMM Do YYYY, h:mm:ss a"),
         likes: 0,
       },
       (err, newComment) => {
@@ -153,13 +156,6 @@ app.route("/feed/:userName").get((req, res) => {
           });
         });
 
-        // to know if person follows another user
-        docs.forEach((doc) => {
-          if (!doc.postedBy.followers.includes(req.params.userName)) {
-            doc.postedBy.followBtn = "Follow";
-          } else doc.postedBy.followBtn = "Following";
-        });
-
         res.render("feed", {
           tweets: docs,
           user: req.params.userName,
@@ -174,19 +170,13 @@ app.route("/feed/:userName/like/:tweetId").post((req, res) => {
     if (!err) {
       if (!doc.likes.includes(req.params.userName)) {
         doc.likes.push(req.params.userName);
-        doc.save((err) => {
-          if (!err) {
-            doc.likeTweetBtn = "Liked";
-          } else console.log(err);
-        });
+        doc.likeTweetBtn = "Liked";
+        doc.save();
       } else {
         let indexForLikes = doc.likes.indexOf(req.params.userName);
         doc.likes.splice(indexForLikes, 1);
-        doc.save((err) => {
-          if (!err) {
-            doc.likeTweetBtn = "Like";
-          } else console.log(err);
-        });
+        doc.likeTweetBtn = "Like";
+        doc.save();
       }
     }
   });
@@ -198,19 +188,13 @@ app.route("/feed/:userName/like-comment/:commentId").post((req, res) => {
     if (!err) {
       if (!doc.likes.includes(req.params.userName)) {
         doc.likes.push(req.params.userName);
-        doc.save((err) => {
-          if (!err) {
-            doc.likeCommentBtn = "Liked";
-          } else console.log(err);
-        });
+        doc.likeCommentBtn = "Liked";
+        doc.save();
       } else {
         let indexForLikes = doc.likes.indexOf(req.params.userName);
         doc.likes.splice(indexForLikes, 1);
-        doc.save((err) => {
-          if (!err) {
-            doc.likeCommentBtn = "Like";
-          } else console.log(err);
-        });
+        doc.likeCommentBtn = "Like";
+        doc.save();
       }
     } else console.log(err);
   });
@@ -223,38 +207,15 @@ app.route("/feed/:userName/follow/:user").post((req, res) => {
       if (doc.name !== req.params.userName) {
         if (!doc.followers.includes(req.params.userName)) {
           doc.followers.push(req.params.userName);
-          doc.save((err) => {
-            if (!err) {
-              doc.followBtn = "Following";
-            } else console.log(err);
-          });
+          doc.followBtn = "Following";
+          doc.save();
         } else {
           let indexForUnFollow = doc.followers.indexOf(req.params.userName);
           doc.followers.splice(indexForUnFollow, 1);
-          doc.save((err) => {
-            if (!err) {
-              doc.followBtn = "Follow";
-            }
-          });
+          doc.followBtn = "Follow";
+          doc.save();
         }
       } else alert("You cannot follow yourself!");
-    }
-  });
-});
-
-//unfollow
-app.route("/feed/:userName/unfollow/:user").post((req, res) => {
-  Person.findOne({ name: req.params.user }, (err, doc) => {
-    if (!err) {
-      if (doc.followers.includes(req.params.userName)) {
-        let indexForUnFollow = doc.followers.indexOf(req.params.userName);
-        doc.followers.splice(indexForUnFollow, 1);
-        doc.save((err) => {
-          if (!err) {
-            res.redirect(`/feed/${req.params.userName}`);
-          }
-        });
-      } else res.redirect(`/feed/${req.params.userName}`);
     }
   });
 });
@@ -268,12 +229,18 @@ app.route("/feed/:userName/dashboard/:user").get((req, res) => {
     })
     .exec(function (err, person) {
       if (err) return handleError(err);
-      else
+      else {
+        // to know if person follows another user
+        if (!person.followers.includes(req.params.userName)) {
+          person.followBtn = "Follow";
+        } else person.followBtn = "Following";
+
         res.render("dashboard", {
           person: person,
           tweets: person.tweets,
           user: req.params.userName,
         });
+      }
     });
 });
 
@@ -298,15 +265,11 @@ app.route("/dashboard/:userName/edit-tweet/:user/:tweetId").post((req, res) => {
 app.route("/edit/:userName/:tweetId/:user").post((req, res) => {
   Tweet.findOne({ _id: req.params.tweetId }, (err, doc) => {
     doc.content = req.body.text;
-    doc.save((err) => {
-      if (err) console.log(err);
-      else {
-        alert("Succesfully edited the tweet!");
-        res.redirect(
-          "/feed/" + req.params.userName + "/dashboard/" + req.params.user
-        );
-      }
-    });
+    doc.save();
+    alert("Succesfully edited the tweet!");
+    res.redirect(
+      "/feed/" + req.params.userName + "/dashboard/" + req.params.user
+    );
   });
 });
 

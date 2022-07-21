@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -8,10 +9,11 @@
     <link href="/style.css" rel="stylesheet">
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,500;1,300;1,400&display=swap');
-     </style>
+    </style>
 
     <title>Dashboard | twitter</title>
 </head>
+
 <body>
     <div class="wrapper">
         <div class="content-wrapper">
@@ -20,108 +22,135 @@
                     <h1>
                         Profile
                     </h1>
-    
+
                     <div class="userBtns">
                         <a class="FeedBtn" href="/feed/<%= user %>">My Feed</a>
                     </div>
                 </div>
             </header>
-    
+
             <section>
                 <div class="dashboard-div">
                     <h3>Name:</h3>
-                    <p><%= person.name %></p> 
+                    <p>
+                        <%= person.name %>
+                    </p>
                 </div>
 
                 <div class="dashboard-div">
                     <h3>Followers:</h3>
-                    <p><%= person.followers.length-1 %></p>
+                    <p class="followerCount">
+                        <%= person.followers.length-1 %>
+                    </p>
+                </div>
+
+                <div class="dashboard-div">
+                    <form class="followBtnForm" action="/feed/<%= user %>/follow/<%=person.name%>" method="post">
+                        <button class="follow" name="follow">
+                            <%= person.followBtn %>
+                        </button>
+                    </form>
                 </div>
 
                 <div class="tweets">
 
-                    <%  tweets.forEach(function(tweet){ %>
+                    <% tweets.forEach(function(tweet){ %>
 
                         <div class="newTweet">
-                                <div class="tweet-flex">
-                                    <form class="dashboardBtnForm" action="/feed/<%= user %>/dashboard/<%=tweet.postedBy.name%>" method="get">
-                                        <button class="dashboard" name="dashboard">
-                                            <div class="posted">
-                                                <b><%=tweet.postedBy.name%></b> .
-                                                <div class="tweetCreatedAt">
-                                                    <%= tweet.createdAt %>
-                                                </div> 
+                            <div class="tweet-flex">
+                                <form class="dashboardBtnForm"
+                                    action="/feed/<%= user %>/dashboard/<%=tweet.postedBy.name%>" method="get">
+                                    <button class="dashboard" name="dashboard">
+                                        <div class="posted">
+                                            <b>
+                                                <%=tweet.postedBy.name%>
+                                            </b> .
+                                            <div class="tweetCreatedAt">
+                                                <%= tweet.postedTweetTime %>
                                             </div>
-                                        </button>
-                                    </form>
-                                </div>
+                                        </div>
+                                    </button>
+                                </form>
+                            </div>
 
-                                <div class="tweet-content">
-                                    <%=tweet.content%>
-                                </div>     
+                            <div class="tweet-content">
+                                <%=tweet.content%>
+                            </div>
 
-                                <div class="forms dashboard-forms">
-                                    <form class="likeBtnForm" action="/feed/<%= user %>/like/<%=tweet.id%>" method="post">
-                                        <button style="cursor: default;" disabled class="like disable" name="like">Likes: <%= tweet.likes.length %></button>
-                                    </form>
-    
-                                    <form class="editBtnForm" action="/dashboard/<%= user %>/edit-tweet/<%=tweet.postedBy.name%>/<%=tweet.id%>" method="post">
-                                        <button class="edit" name="edit">Edit</button>
-                                    </form>
-    
-                                    <form class="deleteBtnForm" action="/dashboard/<%= user %>/delete-tweet/<%=tweet.postedBy.name%>/<%=tweet.id%>" method="post">
-                                        <button class="delete" name="delete">Delete</button>
-                                    </form>
-                                </div>
-                            
-                                <hr>
+                            <div class="forms dashboard-forms">
+                                <form class="likeBtnForm" action="/feed/<%= user %>/like/<%=tweet.id%>" method="post">
+                                    <button style="cursor: default;" disabled class="like disable" name="like">Likes:
+                                        <%= tweet.likes.length %>
+                                    </button>
+                                </form>
+
+                                <form class="editBtnForm"
+                                    action="/dashboard/<%= user %>/edit-tweet/<%=tweet.postedBy.name%>/<%=tweet.id%>"
+                                    method="post">
+                                    <button class="edit" name="edit">Edit</button>
+                                </form>
+
+                                <form class="deleteBtnForm"
+                                    action="/dashboard/<%= user %>/delete-tweet/<%=tweet.postedBy.name%>/<%=tweet.id%>"
+                                    method="post">
+                                    <button class="delete" name="delete">Delete</button>
+                                </form>
+                            </div>
+
+                            <hr>
                         </div>
 
                         <div class="comments">
-                            <%  (tweet.comments).forEach(function(comment){ %>
+                            <% (tweet.comments).forEach(function(comment){ %>
                                 <div class="inside-comments">
-                                    <form class="dashboardBtnForm comment-form" action="/feed/<%= user %>/dashboard/<%=comment.postedBy%>" method="get">
+                                    <form class="dashboardBtnForm comment-form"
+                                        action="/feed/<%= user %>/dashboard/<%=comment.postedBy%>" method="get">
                                         <button class="dashboard" name="dashboard">
                                             <div class="posted">
-                                                <b><%=comment.postedBy%></b> .
+                                                <b>
+                                                    <%=comment.postedBy%>
+                                                </b> .
                                                 <div class="tweetCreatedAt">
-                                                    <%= comment.createdAt %>
-                                                </div> 
+                                                    <%= comment.postedCommentTime %>
+                                                </div>
                                             </div>
                                         </button>
                                     </form>
 
-                                    <form class="dashboardBtnForm comment-form" action="/feed/<%= user %>/dashboard/<%=tweet.postedBy.name%>" method="get">
+                                    <form class="dashboardBtnForm comment-form"
+                                        action="/feed/<%= user %>/dashboard/<%=tweet.postedBy.name%>" method="get">
                                         <button class="dashboard" name="dashboard">
                                             <div class="reply">
                                                 Replying to <span class="replying-to">
                                                     @<%= tweet.postedBy.name %>
-                                                </span> 
+                                                </span>
                                             </div>
                                         </button>
                                     </form>
-                                    
+
                                     <div class="comment-content">
                                         <%=comment.content%>
-                                    </div>     
-                                
+                                    </div>
+
 
                                     <div class="like-delete">
-                                        <form class="commentLikeBtnForm" action="/feed/<%= user %>/like-comment/<%=comment.id%>" method="post">
-                                            <button style="cursor: default;" disabled class="commentLike" name="like">Likes: <%= comment.likes.length - 1 %></button>
+                                        <form class="commentLikeBtnForm"
+                                            action="/feed/<%= user %>/like-comment/<%=comment.id%>" method="post">
+                                            <button style="cursor: default;" disabled class="commentLike"
+                                                name="like">Likes: <%= comment.likes.length - 1 %></button>
                                         </form>
                                     </div>
-                                
+
                                 </div>
-                                
+
                                 <hr>
-                            
-                            <% }) %>
+
+                                <% }) %>
                         </div>
 
                         <hr>
 
-                    <% }) %>
+                        <% }) %>
                 </div>
             </section>
         </div>
@@ -132,6 +161,48 @@
             </h4>
         </footer>
     </div>
-    
+    <script>
+        const followBtn = document.querySelector('.follow');
+        const followForm = document.querySelector('.followBtnForm');
+        const followerCount = document.querySelector('.followerCount');
+
+        //follow
+
+        followBtn.addEventListener('click', (e) => {
+            if (e.target.innerText === 'Follow') {
+                e.target.innerText = 'Following';
+                followerCount.innerHTML = Number(followerCount.innerHTML) + 1;
+            }
+            else {
+                followerCount.innerHTML = Number(followerCount.innerHTML) - 1;
+                e.target.innerText = 'Follow';
+            }
+
+        });
+
+
+        followForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+
+            var action = e.target.action;
+
+            fetch(`${action}`, {
+                method: 'post',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                }
+            }).then((response) => {
+                return response.json();
+            }).then((res) => {
+                if (res.status === 201) {
+                    console.log("Followed successfully!")
+                }
+            }).catch((error) => {
+                console.log(error)
+            });
+        });
+    </script>
 </body>
+
 </html>

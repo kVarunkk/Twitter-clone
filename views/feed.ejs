@@ -47,20 +47,11 @@
                                                 <%=tweet.postedBy.name%>
                                             </b> .
                                             <div class="tweetCreatedAt">
-                                                <%= tweet.createdAt %>
+                                                <%= tweet.postedTweetTime %>
                                             </div>
                                         </div>
                                     </button>
                                 </form>
-
-                                <div class="follow-unfollow">
-                                    <form class="followBtnForm"
-                                        action="/feed/<%= user %>/follow/<%=tweet.postedBy.name%>" method="post">
-                                        <button class="follow" name="follow">
-                                            <%= tweet.postedBy.followBtn %>
-                                        </button>
-                                    </form>
-                                </div>
                             </div>
 
                             <div class="tweet-content">
@@ -102,7 +93,7 @@
                                                     <%=comment.postedBy%>
                                                 </b> .
                                                 <div class="tweetCreatedAt">
-                                                    <%= comment.createdAt %>
+                                                    <%= comment.postedCommentTime %>
                                                 </div>
                                             </div>
                                         </button>
@@ -173,42 +164,42 @@
         const commentLikeBtns = document.querySelectorAll('.commentLike');
         const commentLikeForms = document.querySelectorAll('.commentLikeBtnForm');
 
-        const followBtns = document.querySelectorAll('.follow');
-        const followForms = document.querySelectorAll('.followBtnForm');
+        // const followBtns = document.querySelectorAll('.follow');
+        // const followForms = document.querySelectorAll('.followBtnForm');
 
-        //follow
-        followBtns.forEach(followBtn => {
-            followBtn.addEventListener('click', (e) => {
-                if (e.target.innerText === 'Follow') {
-                    e.target.innerText = 'Following';
-                }
-                else e.target.innerText = 'Follow';
-            });
-        });
+        // //follow
+        // followBtns.forEach(followBtn => {
+        //     followBtn.addEventListener('click', (e) => {
+        //         if (e.target.innerText === 'Follow') {
+        //             e.target.innerText = 'Following';
+        //         }
+        //         else e.target.innerText = 'Follow';
+        //     });
+        // });
 
-        followForms.forEach(followForm => {
-            followForm.addEventListener('submit', (e) => {
-                e.preventDefault();
+        // followForms.forEach(followForm => {
+        //     followForm.addEventListener('submit', (e) => {
+        //         e.preventDefault();
 
-                var action = e.target.action;
+        //         var action = e.target.action;
 
-                fetch(`${action}`, {
-                    method: 'post',
-                    headers: {
-                        'Accept': 'application/json',
-                        'Content-Type': 'application/json'
-                    }
-                }).then((response) => {
-                    return response.json();
-                }).then((res) => {
-                    if (res.status === 201) {
-                        console.log("Followed successfully!")
-                    }
-                }).catch((error) => {
-                    console.log(error)
-                });
-            });
-        });
+        //         fetch(`${action}`, {
+        //             method: 'post',
+        //             headers: {
+        //                 'Accept': 'application/json',
+        //                 'Content-Type': 'application/json'
+        //             }
+        //         }).then((response) => {
+        //             return response.json();
+        //         }).then((res) => {
+        //             if (res.status === 201) {
+        //                 console.log("Followed successfully!")
+        //             }
+        //         }).catch((error) => {
+        //             console.log(error)
+        //         });
+        //     });
+        // });
 
         //like tweet
         likeBtns.forEach(likeBtn => {
