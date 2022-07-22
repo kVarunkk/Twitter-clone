@@ -13,6 +13,7 @@
 
 
 
+
     <title>Feed | twitter</title>
 </head>
 
@@ -128,16 +129,14 @@
                                             </p>
                                         </form>
 
-                                        <form class="commentDeleteBtnForm"
+                                        <form style="display: none;" class="commentDeleteBtnForm"
                                             action="/feed/<%= user %>/delete-comment/<%=comment.postedBy%>/<%=comment.id%>"
                                             method="post">
                                             <button class="commentDelete" name="delete">Delete Comment</button>
                                         </form>
                                     </div>
-
                                 </div>
                                 <hr>
-
 
                                 <% }) %>
                         </div>
@@ -164,42 +163,23 @@
         const commentLikeBtns = document.querySelectorAll('.commentLike');
         const commentLikeForms = document.querySelectorAll('.commentLikeBtnForm');
 
-        // const followBtns = document.querySelectorAll('.follow');
-        // const followForms = document.querySelectorAll('.followBtnForm');
+        const deleteComments = document.querySelectorAll('.commentDeleteBtnForm');
+        deleteComments.forEach(deleteComment => {
+            var count = ((deleteComment.action).match(/<%=user%>/g) || []).length;
 
-        // //follow
-        // followBtns.forEach(followBtn => {
-        //     followBtn.addEventListener('click', (e) => {
-        //         if (e.target.innerText === 'Follow') {
-        //             e.target.innerText = 'Following';
-        //         }
-        //         else e.target.innerText = 'Follow';
-        //     });
-        // });
+            deleteComment.addEventListener('click', () => {
+                const confirmSubmit = confirm('Are you sure you want to delete this comment permanently?');
+                if (confirmSubmit === false) {
+                    window.location.reload();
+                }
+            })
 
-        // followForms.forEach(followForm => {
-        //     followForm.addEventListener('submit', (e) => {
-        //         e.preventDefault();
+            if (count === 2) {
+                deleteComment.style.display = 'block';
+            }
+        })
 
-        //         var action = e.target.action;
 
-        //         fetch(`${action}`, {
-        //             method: 'post',
-        //             headers: {
-        //                 'Accept': 'application/json',
-        //                 'Content-Type': 'application/json'
-        //             }
-        //         }).then((response) => {
-        //             return response.json();
-        //         }).then((res) => {
-        //             if (res.status === 201) {
-        //                 console.log("Followed successfully!")
-        //             }
-        //         }).catch((error) => {
-        //             console.log(error)
-        //         });
-        //     });
-        // });
 
         //like tweet
         likeBtns.forEach(likeBtn => {
@@ -279,9 +259,6 @@
 
 
     </script>
-
-
-
 
 </body>
 

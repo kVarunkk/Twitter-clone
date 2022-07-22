@@ -215,7 +215,7 @@ app.route("/feed/:userName/follow/:user").post((req, res) => {
           doc.followBtn = "Follow";
           doc.save();
         }
-      } else alert("You cannot follow yourself!");
+      }
     }
   });
 });

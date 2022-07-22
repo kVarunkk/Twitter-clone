@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -8,29 +9,30 @@
     <link href="/style.css" rel="stylesheet">
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;500&display=swap');
-     </style>
+    </style>
 
     <title>Edit | twitter</title>
 </head>
+
 <body>
     <div class="wrapper">
         <div class="content-wrapper">
             <header>
                 <div class="header-wrapper">
                     <h1>
-                        Edit 
+                        Edit
                     </h1>
-    
+
                     <div class="userBtns">
                         <a class="FeedBtn" href="/feed/<%= user %>">My Feed</a>
                         <a class="userDashboardBtn" href="/feed/<%= user %>/dashboard/<%= user %>">My Dashboard</a>
                     </div>
                 </div>
             </header>
-    
+
             <section>
                 <form method="post" action="/edit/<%= user %>/<%= tweetId %>/<%= user2 %>">
-                    <textarea name="text"  required><%= initialText %></textarea><br>
+                    <textarea name="text" required autofocus><%= initialText %></textarea><br>
                     <input class="submit" type="submit" value="EDIT NOW" name="submit">
                 </form>
             </section>
@@ -42,6 +44,7 @@
             </h4>
         </footer>
     </div>
-    
+
 </body>
+
 </html>
