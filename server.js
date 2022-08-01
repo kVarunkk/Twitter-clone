@@ -1,6 +1,8 @@
 const bodyParser = require("body-parser");
 const alert = require("alert");
 const express = require("express");
+const http = require("http");
+const socketio = require("socket.io");
 const mongoose = require("mongoose");
 const moment = require("moment");
 const { Person, Tweet, Comment } = require("./models/File");
@@ -9,6 +11,8 @@ const app = express();
 app.set("view engine", "ejs");
 app.use(express.static("public"));
 app.use(bodyParser.urlencoded({ extended: true }));
+const server = http.createServer(app);
+const io = socketio(server);
 
 mongoose.connect("mongodb://localhost:27017/twitterDB", (err) => {
   if (err) console.log(err);
@@ -17,6 +21,19 @@ mongoose.connect("mongodb://localhost:27017/twitterDB", (err) => {
 
 app.route("/").get((req, res) => {
   res.render("index");
+});
+
+//do more tests, implement for comments also
+io.on("connection", (socket) => {
+  socket.on("tweetLikeNumber", (tweetLikeAction) => {
+    //send message to everyone except user
+    socket.broadcast.emit("tweetLikeCount", tweetLikeAction);
+  });
+
+  socket.on("commentLikeNumber", (commentLikeAction) => {
+    //send message to everyone execpt user
+    socket.broadcast.emit("commentLikeCount", commentLikeAction);
+  });
 });
 
 //signUp
@@ -307,6 +324,6 @@ app
     }
   });
 
-app.listen(3000, () => {
+server.listen(3000, () => {
   console.log("Server running at port 3000!");
 });

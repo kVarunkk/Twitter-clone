@@ -20,6 +20,7 @@
     "mongoose": "^6.4.1",
     "nodemon": "^2.0.18",
     "req-flash": "^0.0.3",
-    "session": "^0.1.0"
+    "session": "^0.1.0",
+    "socket.io": "^4.5.1"
   }
 }

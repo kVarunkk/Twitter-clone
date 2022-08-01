@@ -154,9 +154,10 @@
             </h4>
         </footer>
     </div>
-
+    <script src="/socket.io/socket.io.js"></script>
 
     <script>
+        const socket = io();
         const likeBtns = document.querySelectorAll('.like');
         const likeForms = document.querySelectorAll('.likeBtnForm');
 
@@ -180,6 +181,13 @@
         })
 
 
+        socket.on("tweetLikeCount", (tweetLikeAction) => {
+            likeBtns.forEach(likeBtn0 => {
+                if (likeBtn0.parentElement.action.slice(-24) === tweetLikeAction.tweetAction.slice(-24)) {
+                    likeBtn0.nextElementSibling.innerText = tweetLikeAction.tweetLikeNumber
+                }
+            })
+        });
 
         //like tweet
         likeBtns.forEach(likeBtn => {
@@ -187,11 +195,14 @@
                 if (e.target.innerText === 'Like') {
                     e.target.innerText = 'Liked';
                     e.target.nextElementSibling.innerText = (Number(e.target.nextElementSibling.innerText) + 1);
+                    socket.emit("tweetLikeNumber", { tweetLikeNumber: e.target.nextElementSibling.innerText, tweetAction: e.target.parentElement.action });
                 }
                 else {
                     e.target.innerText = 'Like';
                     e.target.nextElementSibling.innerText = (Number(e.target.nextElementSibling.innerText) - 1);
+                    socket.emit("tweetLikeNumber", { tweetLikeNumber: e.target.nextElementSibling.innerText, tweetAction: e.target.parentElement.action });
                 }
+
             });
         });
 
@@ -219,17 +230,29 @@
             });
         });
 
+        socket.on("commentLikeCount", (commentLikeAction) => {
+            commentLikeBtns.forEach(commentLikeBtn0 => {
+                if (commentLikeBtn0.parentElement.action.slice(-24) === commentLikeAction.commentAction.slice(-24)) {
+                    commentLikeBtn0.nextElementSibling.innerText = commentLikeAction.commentLikeNumber
+                }
+            })
+        });
+
         //like comment
         commentLikeBtns.forEach(commentLikeBtn => {
             commentLikeBtn.addEventListener('click', (e) => {
                 if (e.target.innerText === 'Like') {
                     e.target.innerText = 'Liked';
                     e.target.nextElementSibling.innerText = (Number(e.target.nextElementSibling.innerText) + 1);
+                    socket.emit("commentLikeNumber", { commentLikeNumber: e.target.nextElementSibling.innerText, commentAction: e.target.parentElement.action });
                 }
                 else {
                     e.target.innerText = 'Like';
                     e.target.nextElementSibling.innerText = (Number(e.target.nextElementSibling.innerText) - 1);
+                    socket.emit("commentLikeNumber", { commentLikeNumber: e.target.nextElementSibling.innerText, commentAction: e.target.parentElement.action });
                 }
+
+
             });
         });
 
