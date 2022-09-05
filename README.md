@@ -1,4 +1,4 @@
-# twitter-clone
+# Twitter-clone
 
 Twitter clone made using Vanilla JS, Mongodb, express.js and node.js.
 
