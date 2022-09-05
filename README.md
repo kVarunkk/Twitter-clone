@@ -27,8 +27,9 @@ Twitter clone made using Vanilla JS, Mongodb, express.js and node.js.
 - npm
 - mongodb
 
-1. Clone this repository
-2. Install server dependencies
+1. Fork this repository
+2. Clone this repository
+3. Install server dependencies
 
 ```
 $ cd server
