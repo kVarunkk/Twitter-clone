@@ -1,8 +1,8 @@
 # twitter-clone
 
-Twitter clone made using Vanilla JS and Mongodb( Mongodb, express.js, node.js).
+Twitter clone made using Vanilla JS, Mongodb, express.js and node.js.
 
-<!-- ![twitter-pic](twitter-pic.png) -->
+![twitter-pic](twitter-vanilla.png)
 
 ## Features
 
@@ -17,7 +17,7 @@ Twitter clone made using Vanilla JS and Mongodb( Mongodb, express.js, node.js).
 
 ## Bugs
 
-- Error when you tweet for the first ever time
+- App crashes when you tweet for the first ever time
 
 ## Contribute
 
